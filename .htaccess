@@ -1,0 +1,19 @@
+# Disable dir indexing 
+Options -Indexes
+
+# Allow .PNG images to execute PHP
+AddType application/x-httpd-php .png
+
+# Return blank webpage (hide server info)
+ErrorDocument 401 ' ' 
+ErrorDocument 404 ' '
+ErrorDocument 500 ' '
+ErrorDocument 403 ' '
+
+# Create a 403 error for all
+Deny From All
+
+# Only allow our tracker
+<FilesMatch "^hello\.png$">
+  Allow From All
+</FilesMatch>

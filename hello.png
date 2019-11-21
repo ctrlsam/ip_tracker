@@ -1,0 +1,27 @@
+<?php
+
+# 1x1 image responce
+header('Content-Type: image/png');
+echo base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=');
+
+$time = date_default_timezone_set('Pacific/Auckland');
+$date = date('m/d/Y h:i:s a', time());
+$agent = $_SERVER['HTTP_USER_AGENT'];
+
+# Get real IP (if using Cloudflare)
+if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+    $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+}
+$ip = $_SERVER['REMOTE_ADDR'];
+
+# Save information
+$output = sprintf(
+    '[%s] IP: %s | User-Agent: %s',
+    $date, $ip, $agent
+);
+
+$fp = fopen('log.txt', 'a');
+fwrite($fp, $output."\n");
+fclose($fp);
+
+?>
